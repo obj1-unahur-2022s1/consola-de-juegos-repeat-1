@@ -1,6 +1,8 @@
 import wollok.game.*
 import consola.*
 
+import config.*
+
 class Juego {
 	var property position = null
 	var property color 
@@ -15,4 +17,19 @@ class Juego {
 	method image() = "juego" + color + ".png"
 	
 
+}
+
+object uberto inherits Juego(color = "Amarillo"){
+	
+	override method iniciar(){
+		menuUber.inicio()
+		
+	}
+	
+	override method image() = "Calle.png"
+	
+	override method terminar(){
+		game.stop()
+	}
+	
 }

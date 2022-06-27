@@ -1,6 +1,13 @@
 import consola.*
 import wollok.game.*
 
+import autoPlayer.*
+import EstacionDeServicio.*
+import Pasajeros.*
+
+import config.*
+
+
 program juegos {
 
 	consola.iniciar()

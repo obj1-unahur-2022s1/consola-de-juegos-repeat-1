@@ -1,22 +1,31 @@
-import wollok.game.* 
+import wollok.game.*
+
+import autoPlayer.*
+import EstacionDeServicio.*
+import Pasajeros.*
+
+import config.*
 import juego.*
 
 object consola {
 
 	const juegos = [
-		new Juego(color = "Amarillo"),
+		uberto,
 		new Juego(color = "Verde"),
 		new Juego(color = "Rojo"),
 		new Juego(color = "Azul"),
 		new Juego(color = "Naranja"),
 		new Juego(color = "Violeta")
+		
 	]
 	var menu 
 	
 	method initialize(){
 		game.height(12)
 		game.width(17)
+		game.cellSize(64)
 		game.title("Consola de juegos")
+		
 	}
 	
 	method iniciar(){
