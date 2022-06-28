@@ -1,6 +1,6 @@
 import wollok.game.*
 import consola.*
-
+import autoPlayer.*
 import config.*
 
 class Juego {
@@ -22,7 +22,7 @@ class Juego {
 object uberto inherits Juego(color = "Amarillo"){
 	
 	override method iniciar(){
-		menuUber.inicio()
+		autoJugador.nivelActual().inicio()
 		
 	}
 	

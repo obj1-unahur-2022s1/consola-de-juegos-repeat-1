@@ -96,9 +96,10 @@ class Nivel{
 	
 }
 
-object menuUber inherits Nivel(siguienteNivel = nivel1){
+
+object tutorial inherits Nivel(siguienteNivel = menuUber){
 	
-	var property image = "Menu.png"
+	var property image = "caja.png"
 	var property position = game.origin()
 	
 	override method inicio(){
@@ -109,6 +110,21 @@ object menuUber inherits Nivel(siguienteNivel = nivel1){
 	
 }
 
+object menuUber inherits Nivel(siguienteNivel = nivel1){
+	
+	var property image = "Menu.png"
+	var property position = game.origin()
+	
+	override method inicio(){
+		super()
+		game.addVisual(self)
+	}
+	
+	method posicionInicial()= position
+	
+	
+	
+}
 
 
 object nivel1 inherits Nivel(siguienteNivel = nivel2){
@@ -382,13 +398,14 @@ object nivel3 inherits Nivel(siguienteNivel = creditos){
 
 
 object creditos inherits Nivel(siguienteNivel = null){
-	method image() = "caja.png"
+	method text() = "Gracias por Jugar"
 	method position() = game.center()
+	method posicionInicial(){}
 	
 	override method inicio(){
 		super()
 		
-		game.addVisual(self)
+		game.stop()
 	}
 	
 	

@@ -13,7 +13,7 @@ object autoJugador {
 	const property posicionInicial = position
 	
 	
-	var property nivelActual = menuUber
+	var property nivelActual = tutorial
 	
 	method inicializarAuto(){
 		pasosDelPasajeroAlDestino = 0
