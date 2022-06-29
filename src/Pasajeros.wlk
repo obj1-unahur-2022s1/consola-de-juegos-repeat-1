@@ -10,6 +10,7 @@ class Pasajero {
 	const property image = "pasajero1.png"
 	var property costoDelUltimoViaje = 0
 	
+	
 
 	
 	method interactuar(auto){

@@ -22,6 +22,8 @@ object config {
 		
 		keyboard.enter().onPressDo{self.pasarDeNivel()}
 		
+		keyboard.q().onPressDo{menuUber.inicio()}
+		
 	}
 	
 	method nivelSiguiente(){
@@ -65,6 +67,7 @@ class Nivel{
 	const anchoTotal = 17
 	const altoTotal = 12
 	var property siguienteNivel
+	
 
 	method inicio(){
 		
@@ -74,6 +77,7 @@ class Nivel{
 		game.height(altoTotal)
 		
 		config.configurarTeclas()
+		
 		
 	}
 	
@@ -86,7 +90,7 @@ class Nivel{
 	method reiniciar(){
 		self.inicio()
 		self.reiniciarPosiciones()
-		//autoParado.position(autoJugador.position())
+
 		autoJugador.inicializarAuto()
 	}
 	
@@ -94,13 +98,32 @@ class Nivel{
 	
 	
 	
+	
 }
 
+object pantallaDeCarga inherits Nivel(siguienteNivel = tutorial){
+	
+	
+	var property image = "carga.png"
+	var property position = game.origin()
+	var property posicionInicial = position
+	
+	
+	override method inicio(){
+		super()
+		game.addVisual(self)
+	}
+	
+	
+	
+}
 
 object tutorial inherits Nivel(siguienteNivel = menuUber){
 	
+	
 	var property image = "caja.png"
 	var property position = game.origin()
+	var property posicionInicial = position
 	
 	override method inicio(){
 		super()
@@ -110,10 +133,14 @@ object tutorial inherits Nivel(siguienteNivel = menuUber){
 	
 }
 
+
+
 object menuUber inherits Nivel(siguienteNivel = nivel1){
 	
 	var property image = "Menu.png"
 	var property position = game.origin()
+	var property posicionInicial = position
+	var property x = 0
 	
 	override method inicio(){
 		super()
@@ -129,33 +156,47 @@ object menuUber inherits Nivel(siguienteNivel = nivel1){
 
 object nivel1 inherits Nivel(siguienteNivel = nivel2){
 	
+	const property listaPasajeros = []
+	
+	/* 
+
+	 
+	override method contarPasajeros(){
+		return game.allVisuals().filter({p => p.image() == "pasajero1.png"})
+	}
+	*/
+	
 	
 	
 	override method inicio(){
 		
+		
+		
 		super()
+		
+		
+		
 			
 		var eds = new EstacionDeServicio(position=game.at(0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height()).truncate(0)))
 		
 		var d1 = new Destino(position=game.at(0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height()).truncate(0)))
 		
 		var p1 = new Pasajero(position=game.at(0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height()).truncate(0)),dineroDisponible=20,destino = d1)
-		
-		
+			
+			
 		var d2 = new Destino(position=game.at(0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height()).truncate(0)))
-		
+			
 		var p2 = new Pasajero(position=game.at(0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height()).truncate(0)),dineroDisponible=60,destino = d2)
-		
-		
+			
+			
 		var d3 = new Destino(position=game.at(0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height()).truncate(0)))
-		
+			
 		var p3 = new Pasajero(position=game.at(0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height()).truncate(0)),dineroDisponible=50,destino = d3)
-		
-		
+			
+			
 		var d4 = new Destino(position=game.at(0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height()).truncate(0)))
-		
+			
 		var p4 = new Pasajero(position=game.at(0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height()).truncate(0)),dineroDisponible=40,destino = d4)
-
 		
 		game.addVisual(stats)
 		
@@ -183,6 +224,16 @@ object nivel1 inherits Nivel(siguienteNivel = nivel2){
 		
 		colisiones.configurar()	
 		
+		self.listaPasajeros().clear()
+		//game.allVisuals().forEach({o => if(o.x() == 1) self.listaPasajeros().add(o)  })
+		
+		
+		game.allVisuals().forEach({o => if(o.image() == "pasajero1.png") self.listaPasajeros().add(o)  })
+		
+		//self.listaPasajeros().addAll(game.allVisuals().filter({o => o.x() == 1 }))
+	
+		
+		
 		
 	}
 	
@@ -195,7 +246,7 @@ object nivel1 inherits Nivel(siguienteNivel = nivel2){
 
 
 object nivel2 inherits Nivel(siguienteNivel = nivel3){
-
+	const property listaPasajeros = []
 	
 	override method inicio(){
 		
@@ -266,7 +317,8 @@ object nivel2 inherits Nivel(siguienteNivel = nivel3){
 		
 		colisiones.configurar()	
 		
-		
+		self.listaPasajeros().clear()
+		game.allVisuals().forEach({o => if(o.image() == "pasajero1.png") self.listaPasajeros().add(o)  })
 		
 	}
 	
@@ -276,6 +328,8 @@ object nivel2 inherits Nivel(siguienteNivel = nivel3){
 }
 
 object nivel3 inherits Nivel(siguienteNivel = creditos){
+	
+	const property listaPasajeros = []
 
 	
 	override method inicio(){
@@ -390,6 +444,8 @@ object nivel3 inherits Nivel(siguienteNivel = creditos){
 		
 		colisiones.configurar()	
 		
+		self.listaPasajeros().clear()
+		game.allVisuals().forEach({o => if(o.image() == "pasajero1.png") self.listaPasajeros().add(o)  })
 
 	}
 	
@@ -398,14 +454,14 @@ object nivel3 inherits Nivel(siguienteNivel = creditos){
 
 
 object creditos inherits Nivel(siguienteNivel = null){
-	method text() = "Gracias por Jugar"
+	method text() = "Gracias por Jugar, presiona Q para salir"
 	method position() = game.center()
 	method posicionInicial(){}
 	
 	override method inicio(){
 		super()
+		game.addVisual(self)
 		
-		game.stop()
 	}
 	
 	

@@ -13,7 +13,12 @@ object autoJugador {
 	const property posicionInicial = position
 	
 	
-	var property nivelActual = tutorial
+	var property nivelActual = pantallaDeCarga
+	
+	
+	
+	
+	
 	
 	method inicializarAuto(){
 		pasosDelPasajeroAlDestino = 0
@@ -41,12 +46,11 @@ object autoJugador {
 			self.rotar(direccion)
 			combustible = 0.max(combustible - 1)}
 		if(self.chocaConAuto()){
-			
 			vida = 0.max(vida-10)
-			
-			
 		}
 	}
+	
+	
 	
 	method rotar(direccion){
 		if (direccion == "arriba"){
@@ -71,6 +75,10 @@ object autoJugador {
 	method bajarPasajero(pasajero){
 		pasajeroActual = null
 		pasajero.abonarViaje(self)
+		self.nivelActual().listaPasajeros().remove(pasajero)
+		if(self.nivelActual().listaPasajeros().isEmpty()){
+			config.pasarDeNivel()
+		}
 		
 	}
 	
@@ -85,10 +93,17 @@ object autoJugador {
 	}
 	
 	method objetoColisionante()=
-		if(game.colliders(self).size() == 1)
+		if(game.colliders(self).size() == 1){
 			game.uniqueCollider(self)
-		else
+		}
+		else if(game.colliders(self).size() > 1){
+			
+			game.colliders(self).anyOne()
+		} 
+		else{
 			null
+		}
+			
 
 	method interactuarCon(objeto) {
 		if (self.objetoColisionante() != null)
@@ -114,6 +129,7 @@ object autoParado{
 	var property position = self.positionAParar()
 	const property posicionInicial = position
 	
+
 	
 	method positionAParar(){
 		
@@ -135,15 +151,20 @@ object autoParado{
 }
 
 object stats{
-	var property position= game.at(10,0)
+	var property position= game.at(10,2)
+	
+
 	
 	const property posicionInicial = self.position()
 	
 	method text()= 
 		return "Nafta: " + autoJugador.combustible() + "    " + "Dinero: " + autoJugador.gananciasTotales()
-		+ "  " + "Vida: " + autoJugador.vida()
+		+ "  " + "Vida: " + autoJugador.vida() + "   "+ autoJugador.nivelActual()
 		
+	
 	method mensaje(){}
+	
+	method image() = "null.png"
 		
 	
 	
@@ -154,6 +175,7 @@ object autoPrueba{
 	var property image = "TaxiArriba.png"
     var property position = game.at(1.randomUpTo(15),1.randomUpTo(15))
     const property posicionInicial = position
+    
     
 	
 	const property imagenes = ["TaxiArriba.png","TaxiAbajo.png","TaxiIzquierda.png","TaxiDerecha.png"]

@@ -6,7 +6,6 @@ class EstacionDeServicio {
 	var property position = game.origin()//game.at(2,2)
 	const property posicionInicial = position
 	
-	
 	method interactuar(auto){
 		self.venderCombustible(auto)
 	}

@@ -23,7 +23,7 @@ object consola {
 	method initialize(){
 		game.height(12)
 		game.width(17)
-		game.cellSize(64)
+		//game.cellSize(64)
 		game.title("Consola de juegos")
 		
 	}
