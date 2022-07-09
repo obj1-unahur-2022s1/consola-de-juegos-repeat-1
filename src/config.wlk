@@ -2,6 +2,7 @@ import wollok.game.*
 import autoPlayer.*
 import EstacionDeServicio.*
 import Pasajeros.*
+import consola.*
 
 
 
@@ -9,6 +10,8 @@ import Pasajeros.*
 object config {
 	//Configuracion de volumen y teclas, además tiene el metodo revisarColision y guarda el nivel actual en el que esta el juego
 
+	var property nivelActual = null
+	
 	method configurarTeclas() {
 		keyboard.up().onPressDo{autoJugador.avanzar("arriba") }
 		keyboard.down().onPressDo{autoJugador.avanzar("abajo") }
@@ -17,28 +20,50 @@ object config {
 	
 		keyboard.z().onPressDo{autoJugador.interactuarCon(autoJugador.objetoColisionante())}
 		
-		keyboard.r().onPressDo{self.reiniciarJuego(autoJugador.nivelActual())}
+		keyboard.r().onPressDo{self.reiniciarJuego(self.nivelActual())}
 		
 		
-		keyboard.enter().onPressDo{self.pasarDeNivel()}
+		keyboard.enter().onPressDo{self.saltarMenu()}
 		
-		keyboard.q().onPressDo{menuUber.inicio()}
+		keyboard.q().onPressDo{self.volverAtras()}
 		
 	}
 	
 	method nivelSiguiente(){
-		return autoJugador.nivelActual().siguienteNivel()
+		return self.nivelActual().siguienteNivel()
 	}
 	
-	method pasarDeNivel(){
-		
+	method pasarDeNivel(){ //Usado al bajar pasajero, cuando no quedan en el tablero
 		self.nivelSiguiente().inicio()
-		self.nivelSiguiente().reiniciar()
-		autoJugador.nivelActual(self.nivelSiguiente())
+		self.nivelActual().reiniciar()
 	}
 	
 	method reiniciarJuego(nivel) {
 		nivel.reiniciar()	
+	}
+	
+	method estoyEnUnMenu(){
+		return 	self.nivelActual() == tutorial or
+				self.nivelActual() == menuUber or
+				self.nivelActual() == pantallaDeCarga or
+				self.nivelActual() == creditos
+				
+	}
+	
+	method saltarMenu(){
+		if (self.estoyEnUnMenu()){
+			self.nivelSiguiente().inicio()
+		}
+	}
+	
+	method volverAtras(){
+		if (not self.estoyEnUnMenu()){
+			menuUber.inicio()
+		}
+		else{
+			game.clear()
+			consola.iniciar()
+		}
 	}
 	
 	
@@ -70,13 +95,13 @@ class Nivel{
 	
 
 	method inicio(){
-		
 		game.clear()
 		game.title("El laburante de Uberto")
 		game.width(anchoTotal)
 		game.height(altoTotal)
+		config.nivelActual(self)
+		game.addVisual(stats)
 		
-		config.configurarTeclas()
 		
 		
 	}
@@ -90,7 +115,6 @@ class Nivel{
 	method reiniciar(){
 		self.inicio()
 		self.reiniciarPosiciones()
-
 		autoJugador.inicializarAuto()
 	}
 	
@@ -112,6 +136,8 @@ object pantallaDeCarga inherits Nivel(siguienteNivel = tutorial){
 	override method inicio(){
 		super()
 		game.addVisual(self)
+		config.configurarTeclas()
+		
 	}
 	
 	
@@ -128,6 +154,7 @@ object tutorial inherits Nivel(siguienteNivel = menuUber){
 	override method inicio(){
 		super()
 		game.addVisual(self)
+		config.configurarTeclas()
 	}
 	
 	
@@ -137,7 +164,7 @@ object tutorial inherits Nivel(siguienteNivel = menuUber){
 
 object menuUber inherits Nivel(siguienteNivel = nivel1){
 	
-	var property image = "Menu.png"
+	var property image = "juegoRojo.png"
 	var property position = game.origin()
 	var property posicionInicial = position
 	var property x = 0
@@ -145,6 +172,7 @@ object menuUber inherits Nivel(siguienteNivel = nivel1){
 	override method inicio(){
 		super()
 		game.addVisual(self)
+		config.configurarTeclas()
 	}
 	
 	method posicionInicial()= position
@@ -198,6 +226,7 @@ object nivel1 inherits Nivel(siguienteNivel = nivel2){
 			
 		var p4 = new Pasajero(position=game.at(0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height()).truncate(0)),dineroDisponible=40,destino = d4)
 		
+		game.removeVisual(stats)
 		game.addVisual(stats)
 		
 		
@@ -232,7 +261,7 @@ object nivel1 inherits Nivel(siguienteNivel = nivel2){
 		
 		//self.listaPasajeros().addAll(game.allVisuals().filter({o => o.x() == 1 }))
 	
-		
+		config.configurarTeclas()
 		
 		
 	}
@@ -285,7 +314,7 @@ object nivel2 inherits Nivel(siguienteNivel = nivel3){
 		
 		var p6 = new Pasajero(position=game.at(0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height()).truncate(0)),dineroDisponible=60,destino = d6)
 
-		
+		game.removeVisual(stats)
 		game.addVisual(stats)
 		
 		
@@ -320,6 +349,7 @@ object nivel2 inherits Nivel(siguienteNivel = nivel3){
 		self.listaPasajeros().clear()
 		game.allVisuals().forEach({o => if(o.image() == "pasajero1.png") self.listaPasajeros().add(o)  })
 		
+		config.configurarTeclas()
 	}
 	
 	
@@ -396,7 +426,7 @@ object nivel3 inherits Nivel(siguienteNivel = creditos){
 		
 		var p10 = new Pasajero(position=game.at(0.randomUpTo(game.width()).truncate(0), 0.randomUpTo(game.height()).truncate(0)),dineroDisponible=1,destino = d10)
 
-		
+		game.removeVisual(stats)
 		game.addVisual(stats)
 		
 		
@@ -447,6 +477,8 @@ object nivel3 inherits Nivel(siguienteNivel = creditos){
 		self.listaPasajeros().clear()
 		game.allVisuals().forEach({o => if(o.image() == "pasajero1.png") self.listaPasajeros().add(o)  })
 
+
+		config.configurarTeclas()
 	}
 	
 	
@@ -462,7 +494,11 @@ object creditos inherits Nivel(siguienteNivel = null){
 		super()
 		game.addVisual(self)
 		
+		config.configurarTeclas()
+		
 	}
+	
+	
 	
 	
 }

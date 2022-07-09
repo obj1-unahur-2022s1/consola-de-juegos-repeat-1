@@ -22,7 +22,7 @@ class Juego {
 object uberto inherits Juego(color = "Amarillo"){
 	
 	override method iniciar(){
-		autoJugador.nivelActual().inicio()
+		pantallaDeCarga.inicio()
 		
 	}
 	

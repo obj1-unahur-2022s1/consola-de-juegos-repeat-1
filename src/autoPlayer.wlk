@@ -7,22 +7,15 @@ object autoJugador {
 	var property pasosDelPasajeroAlDestino = 0
 	var property pasajeroActual = null
 	var property gananciasTotales = 100
-	var property combustible = 50
+	var property combustible = 550
 	var property ultimaDireccion = null
 	var property vida = 100
 	const property posicionInicial = position
 	
 	
-	var property nivelActual = pantallaDeCarga
-	
-	
-	
-	
-	
-	
 	method inicializarAuto(){
 		pasosDelPasajeroAlDestino = 0
-		combustible = 50
+		combustible = 550
 		vida = 100
 		gananciasTotales = 0
 		pasajeroActual = null
@@ -75,8 +68,8 @@ object autoJugador {
 	method bajarPasajero(pasajero){
 		pasajeroActual = null
 		pasajero.abonarViaje(self)
-		self.nivelActual().listaPasajeros().remove(pasajero)
-		if(self.nivelActual().listaPasajeros().isEmpty()){
+		config.nivelActual().listaPasajeros().remove(pasajero)
+		if(config.nivelActual().listaPasajeros().isEmpty()){
 			config.pasarDeNivel()
 		}
 		
@@ -159,12 +152,14 @@ object stats{
 	
 	method text()= 
 		return "Nafta: " + autoJugador.combustible() + "    " + "Dinero: " + autoJugador.gananciasTotales()
-		+ "  " + "Vida: " + autoJugador.vida() + "   "+ autoJugador.nivelActual()
+		+ "  " + "Vida: " + autoJugador.vida() + "   "+ config.nivelActual()
 		
 	
 	method mensaje(){}
 	
 	method image() = "null.png"
+	
+	method interactuar(objeto){}
 		
 	
 	
