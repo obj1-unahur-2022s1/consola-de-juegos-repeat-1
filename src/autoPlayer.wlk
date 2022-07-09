@@ -7,7 +7,7 @@ object autoJugador {
 	var property pasosDelPasajeroAlDestino = 0
 	var property pasajeroActual = null
 	var property gananciasTotales = 100
-	var property combustible = 550
+	var property combustible = 531
 	var property ultimaDireccion = null
 	var property vida = 100
 	const property posicionInicial = position
@@ -163,6 +163,13 @@ object stats{
 		
 	
 	
+}
+
+object nafta{
+	method image(){
+		return 
+		
+	}
 }
 
 
