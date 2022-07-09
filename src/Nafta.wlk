@@ -1,14 +1,33 @@
 import autoPlayer.*
+import wollok.game.*
 
-object naftaPrimerDigito {
+class nafta{
+	const property posicionInicial = self.position()
+	
+	method position()
+	
+	method mensaje(){}
+	
+	method interactuar(objeto){}
+}
+
+object naftaPrimerDigito inherits nafta{
+	
+	var property position=game.at(7,11)
+	
 	method image(){
 		var numeroConComa = autoJugador.combustible() / 100
 		
 		return numeroConComa.truncate(0).toString() + ".png"
 	}
+	
+	
 }
 
-object naftaSegundoDigito{
+object naftaSegundoDigito inherits nafta{
+	
+	var property position=game.at(8,11)
+	
 	method image(){
 		var numeroConComa = autoJugador.combustible() / 100
 		var numeroSinComa = numeroConComa.truncate(0)
@@ -19,7 +38,10 @@ object naftaSegundoDigito{
 	}
 }
 
-object naftaTercerDigito{
+object naftaTercerDigito inherits nafta{
+	
+	var property position = game.at(9,11)
+	
 	method image(){
 		var numeroConComa = autoJugador.combustible() / 100
 		var numeroSinComa = numeroConComa.truncate(0)

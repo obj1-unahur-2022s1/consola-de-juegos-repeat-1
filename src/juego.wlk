@@ -26,7 +26,7 @@ object uberto inherits Juego(color = "Amarillo"){
 		
 	}
 	
-	override method image() = "Calle.png"
+	override method image() = "LogoUber.png"
 	
 	override method terminar(){
 		game.stop()

@@ -7,16 +7,14 @@ object autoJugador {
 	var property pasosDelPasajeroAlDestino = 0
 	var property pasajeroActual = null
 	var property gananciasTotales = 100
-	var property combustible = 531
+	var property combustible = 50
 	var property ultimaDireccion = null
-	var property vida = 100
 	const property posicionInicial = position
 	
 	
 	method inicializarAuto(){
 		pasosDelPasajeroAlDestino = 0
-		combustible = 550
-		vida = 100
+		combustible = 50
 		gananciasTotales = 0
 		pasajeroActual = null
 		
@@ -39,7 +37,7 @@ object autoJugador {
 			self.rotar(direccion)
 			combustible = 0.max(combustible - 1)}
 		if(self.chocaConAuto()){
-			vida = 0.max(vida-10)
+			combustible = 0.max(combustible-2)
 		}
 	}
 	
@@ -144,16 +142,15 @@ object autoParado{
 }
 
 object stats{
-	var property position= game.at(10,2)
+	var property position= game.at(14,11)
 	
 
 	
 	const property posicionInicial = self.position()
 	
 	method text()= 
-		return "Nafta: " + autoJugador.combustible() + "    " + "Dinero: " + autoJugador.gananciasTotales()
-		+ "  " + "Vida: " + autoJugador.vida() + "   "+ config.nivelActual()
-		
+		return "Dinero: " + autoJugador.gananciasTotales() + "  "+ config.nivelActual()
+		//"Nafta: " + autoJugador.combustible() + "    " + 
 	
 	method mensaje(){}
 	
@@ -165,12 +162,6 @@ object stats{
 	
 }
 
-object nafta{
-	method image(){
-		return 
-		
-	}
-}
 
 
 object autoPrueba{
