@@ -59,6 +59,7 @@ object config {
 	
 	method volverAtras(){
 		if (not self.estoyEnUnMenu()){
+			self.nivelActual().reiniciar()
 			menuUber.inicio()
 		}
 		else{
@@ -265,6 +266,7 @@ object nivel1 inherits Nivel(siguienteNivel = nivel2){
 		
 		//self.listaPasajeros().addAll(game.allVisuals().filter({o => o.x() == 1 }))
 	
+		
 		config.configurarTeclas()
 		
 		
